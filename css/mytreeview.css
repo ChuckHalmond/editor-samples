@@ -1,13 +1,16 @@
 .badge {
     margin-left: 4px;
-    order: 2;
+    color: grey;
 }
 
 .label {
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
-    margin-right: auto;
+}
+
+e-toolbar {
+    margin-left: auto;
 }
 
 e-treeitem:is(
@@ -25,7 +28,7 @@ e-treeitem:is(
 }
 
 e-tabpanel {
-    padding-top: 8px;
+    margin-top: 8px;
 }
 
 .dialog-footer {
@@ -42,12 +45,23 @@ e-tabpanel {
     margin-left: auto;
 }
 
-e-toolbaritem[name="visibility"] {
-    --icon-color: black;
-    --icon-image: url("/assets/visibility_FILL1_wght400_GRAD0_opsz48.svg");
+e-toolbaritem[name="edit"]::part(icon)::before {
+    background-color: black;
+    mask-image: url("/assets/edit_FILL1_wght400_GRAD0_opsz48.svg");
+    -webkit-mask-image: url("/assets/edit_FILL1_wght400_GRAD0_opsz48.svg");
+}
+
+e-toolbaritem[name="visibility"]::part(icon)::before {
+    background-color: black;
+    mask-image: url("/assets/visibility_FILL1_wght400_GRAD0_opsz48.svg");
+    -webkit-mask-image: url("/assets/visibility_FILL1_wght400_GRAD0_opsz48.svg");
 }
 
 e-toolbaritem[name="visibility"][pressed] {
-    --icon-image: url("/assets/visibility_off_FILL1_wght400_GRAD0_opsz48.svg");
     background-color: revert;
+}
+
+e-toolbaritem[name="visibility"][pressed]::part(icon)::before {
+    mask-image: url("/assets/visibility_off_FILL1_wght400_GRAD0_opsz48.svg");
+    -webkit-mask-image: url("/assets/visibility_off_FILL1_wght400_GRAD0_opsz48.svg");
 }

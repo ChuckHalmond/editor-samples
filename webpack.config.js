@@ -9,7 +9,15 @@ exports.default = {
         test: /\.ts$/,
         use: "ts-loader"
       },
-    ],
+      {
+        test: /\.svg/,
+        type: "asset/resource"
+      },
+      {
+        test: /\.ttf/,
+        type: "asset/resource"
+      }
+    ]
   },
   resolve: {
     extensions: [".ts", ".js"],
@@ -17,7 +25,7 @@ exports.default = {
       path.join(__dirname, "./")
     ],
     alias: {
-      "editor": path.resolve(__dirname, "./node_modules/editor/lib/")
+      "editor": path.resolve(__dirname, "./node_modules/editor/")
     }
   },
   output: {
