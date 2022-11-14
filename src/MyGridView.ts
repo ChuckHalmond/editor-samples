@@ -1,18 +1,18 @@
 import { CustomElement, element } from "editor/lib/elements/Element";
-import { ModelProperty } from "editor/lib/models/Model";
+import { ReactiveProperty } from "editor/lib/models/Model";
 import { GridRowFilter, GridRowModel, GridView } from "editor/lib/views/GridView";
 
 export { MyGridRowModel };
 export { MyGridView };
 
 class MyGridRowModel extends GridRowModel {
-    @ModelProperty()
+    @ReactiveProperty()
     name: string;
 
-    @ModelProperty()
+    @ReactiveProperty()
     age: number;
 
-    @ModelProperty()
+    @ReactiveProperty()
     color: string;
     
     constructor(init: {

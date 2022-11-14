@@ -3,7 +3,7 @@ import { HTMLEToolBarElement, HTMLEToolBarItemElement } from "editor/lib/element
 import { HTMLETreeElement } from "editor/lib/elements/containers/trees";
 import { HTMLEOptionElement, HTMLESelectElement } from "editor/lib/elements/controls/select";
 import { CustomElement, element, fragment, reactiveElement } from "editor/lib/elements/Element";
-import { ModelProperty, ModelEvent } from "editor/lib/models/Model";
+import { ReactiveProperty, ModelEvent } from "editor/lib/models/Model";
 import { TreeItemModelList, TreeItemModel, TreeView } from "editor/lib/views/TreeView";
 
 export { MyTreeItemModel };
@@ -12,10 +12,10 @@ export { MyTreeView };
 
 class MyTreeItemModel extends TreeItemModel {
     
-    @ModelProperty()
+    @ReactiveProperty()
     childCount: number;
 
-    @ModelProperty()
+    @ReactiveProperty()
     visibility: boolean;
 
     constructor(init: {id: string, type: "leaf" | "parent", items?: TreeItemModel[]}) {
