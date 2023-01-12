@@ -29,6 +29,8 @@ class MyGridRowModel extends GridRowModel {
     }
 }
 
+var style: string;
+
 @CustomElement({
     name: "e-mygridview"
 })
@@ -36,22 +38,30 @@ class MyGridView extends GridView {
 
     #searchFilter: GridRowFilter | null;
 
+    static {
+        style = /*css*/`
+            e-gridcell[headers="age"] {
+                text-align: right;
+            }
+        `;
+    }
+
     constructor() {
         super();
         this.#searchFilter = null;
+        const {shadowRoot} = this
+        const adoptedStylesheet = new CSSStyleSheet();
+        adoptedStylesheet.replace(style);
+        shadowRoot.adoptedStyleSheets = [
+            ...shadowRoot.adoptedStyleSheets, adoptedStylesheet
+        ];
     }
 
     override render(): void {
         super.render();
         const {shadowRoot} = this;
         shadowRoot.prepend(
-            element("link", {
-                attributes: {
-                    rel: "stylesheet",
-                    href: "../css/mygridview.css"
-                }
-            }),
-            /*element("div", {
+            element("div", {
                 children: element("input", {
                     attributes: {
                         type: "search"
@@ -60,7 +70,7 @@ class MyGridView extends GridView {
                         input: <EventListener>this.#handleSearchInputEvent.bind(this)
                     }
                 })
-            }),*/
+            })
         );
     }
 
