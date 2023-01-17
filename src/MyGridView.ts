@@ -57,10 +57,9 @@ class MyGridView extends GridView {
         ];
     }
 
-    override render(): void {
-        super.render();
-        const {shadowRoot} = this;
-        shadowRoot.prepend(
+    override renderShadow(): Node {
+        const shadowNode = super.renderShadow();
+        shadowNode.insertBefore(
             element("div", {
                 children: element("input", {
                     attributes: {
@@ -70,8 +69,10 @@ class MyGridView extends GridView {
                         input: <EventListener>this.#handleSearchInputEvent.bind(this)
                     }
                 })
-            })
+            }),
+            shadowNode.firstChild
         );
+        return shadowNode;
     }
 
     filter(row: GridRowModel): boolean {

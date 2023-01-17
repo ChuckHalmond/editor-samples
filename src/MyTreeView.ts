@@ -47,7 +47,7 @@ class MyTreeItemModel extends TreeItemModel {
 }
 
 class MyTreeItemModelList extends TreeItemModelList {
-    readonly items!: MyTreeItemModel[];
+    declare readonly items: MyTreeItemModel[];
 
     constructor(items: MyTreeItemModel[]) {
         super(items);

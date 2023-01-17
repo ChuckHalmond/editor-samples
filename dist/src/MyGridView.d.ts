@@ -15,7 +15,7 @@ declare class MyGridRowModel extends GridRowModel {
 declare class MyGridView extends GridView {
     #private;
     constructor();
-    render(): void;
+    renderShadow(): Node;
     filter(row: GridRowModel): boolean;
     setSearchFilter(filter: GridRowFilter | null): void;
 }

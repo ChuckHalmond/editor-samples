@@ -22,11 +22,9 @@ exports.default = {
   resolve: {
     extensions: [".ts", ".js"],
     modules: [
-      path.join(__dirname, "./")
-    ],
-    alias: {
-      "editor": path.resolve(__dirname, "./node_modules/editor/")
-    }
+      path.join(__dirname, "./"),
+      path.join(__dirname, "./node_modules/")
+    ]
   },
   output: {
     filename: "main.js",

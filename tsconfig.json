@@ -1,7 +1,7 @@
 {
     "compilerOptions": {
       "outDir": "./dist",
-      "target": "es2021",
+      "target": "esnext",
       "experimentalDecorators": true,
       "noImplicitAny": true,
       "module": "esnext",
@@ -13,10 +13,7 @@
       "baseUrl": "./",
       "skipLibCheck": true,
       "esModuleInterop": true,
-      "allowSyntheticDefaultImports": true,
-      "paths": {
-        "editor/*": ["./node_modules/editor/*"],
-      }
+      "allowSyntheticDefaultImports": true
     },
     "exclude": [
       "./dist",
