@@ -16,6 +16,10 @@ exports.default = {
       {
         test: /\.ttf/,
         type: "asset/resource"
+      },
+      {
+        test: /\.css/,
+        type: "asset/resource"
       }
     ]
   },

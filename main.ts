@@ -12,6 +12,7 @@ import "editor/lib/elements/containers/tabs";
 import "editor/lib/elements/containers/menus";
 import "editor/lib/elements/containers/status";
 import "editor/lib/elements/misc";
+import { HTMLEToolTipElement } from "editor/lib/elements/misc";
 
 export async function main() {
     document.adoptedStyleSheets = [theme.stylesheet];
@@ -184,5 +185,122 @@ export async function main() {
                 ]
             })
         })
+    );
+
+    const wrapExample = (name: string, ...html: Element[]) => element("details", {
+        children: [
+            element("summary", {
+                children: name
+            }),
+            ...html
+        ]
+    })
+
+    document.body.append(
+        wrapExample("date-picker",
+            element("style", {
+                children: /*css*/`
+                    #date-picker {
+                        display: inline-block;
+                    }
+                    input[type=range] {
+                        position: relative;
+                        z-index: 1;
+                        width: 200px;
+                        margin: 0;
+                    }
+                    
+                    datalist {
+                        display: flex;
+                        flex-direction: column;
+                        justify-content: space-between;
+                        writing-mode: vertical-lr;
+                        width: 200px;
+                        transform: translateY(-30px);
+                    }
+                    
+                    option {
+                        padding: 0;
+                        padding-top: 30px;
+                        user-select: none;
+                    }
+                `
+            }),
+            element("div", {
+                attributes: {
+                    id: "date-picker"
+                },
+                children: [
+                    element("input", {
+                        attributes: {
+                            id: "date-input",
+                            type: "range",
+                            list: "markers",
+                            min: 0,
+                            max: 5,
+                            step: 1
+                        },
+                        listeners: {
+                            pointermove: (event) => {
+                                const {x, y} = <PointerEvent>event;
+                                const target = document.elementsFromPoint(x, y).find(el => el instanceof Option);
+                                const tooltip = <HTMLEToolTipElement>document.getElementById("date-tooltip");
+                                if (target instanceof Option) {
+                                    const {value} = target;
+                                    const label = `${Number(value) + 1}/01/2023`;
+                                    tooltip.textContent = label;
+                                    tooltip.show();
+                                }
+                                else {
+                                    tooltip.hide();
+                                }
+                            }
+                        }
+                    }),
+                    element("e-tooltip", {
+                        attributes: {
+                            id: "date-tooltip",
+                            position: "top",
+                            for: "date-picker"
+                        }
+                    }),
+                    element("datalist", {
+                        attributes: {
+                            id: "markers"
+                        },
+                        children: new Array(6).fill(0).map((_, i) => {
+                            return element("option", {
+                                attributes: {
+                                    value: i,
+                                    label: `${i + 1}/01/2023`
+                                }
+                            });
+                        }),
+                        listeners: {
+                            click: (event) => {
+                                const {target} = event;
+                                if (target instanceof Option) {
+                                    const input = <HTMLInputElement>document.getElementById("date-input");
+                                    input.value = target.value;
+                                }
+                            },
+                            pointerover: (event) => {
+                                const {target} = event;
+                                const tooltip = <HTMLEToolTipElement>document.getElementById("date-tooltip");
+                                if (target instanceof Option) {
+                                    const {value} = target;
+                                    const label = `${Number(value) + 1}/01/2023`;
+                                    tooltip.textContent = label;
+                                    tooltip.show();
+                                }
+                                else {
+                                    tooltip.hide();
+                                }
+                            }
+                        }
+                    })
+                ]
+            })
+        )
     );
 }
