@@ -196,43 +196,84 @@ export async function main() {
         ]
     })
 
-    function formatDateValue(value: number) {
-        return `${String(value + 1).padStart(2, "0")}-01-2023`;   
+    const data: Array<[number, number]> = [
+        [Date.UTC(2023, 1, 1), 5],
+        [Date.UTC(2023, 1, 2), 4],
+        [Date.UTC(2023, 1, 3), 1],
+        [Date.UTC(2023, 1, 4), -1],
+        [Date.UTC(2023, 1, 5), 2],
+        [Date.UTC(2023, 1, 6), 5],
+        [Date.UTC(2023, 1, 7), 0],
+        [Date.UTC(2023, 1, 8), 2],
+        [Date.UTC(2023, 1, 9), 7],
+        [Date.UTC(2023, 1, 10), 8],
+        [Date.UTC(2023, 1, 11), 10]
+    ]
+    function formatDataLabel(data: [number, number]) {
+        return new Intl.DateTimeFormat('fr-FR').format(new Date(data[0]));
     }
-    const minValue = 0;
-    const maxValue = 6;
-    const initialValue = 3;
+    function getValueColor(value: number) {
+        if (value >= 8) {
+            return "red";
+        }
+        if (value >= 5) {
+            return "orange";
+        }
+        if (value > 0) {
+            return "yellow";
+        }
+        return "white";
+    }
+
+    const minValue = data[0][0];
+    const step = Date.UTC(0, 0, 1) - Date.UTC(0, 0, 0);
+    const maxValue = data[data.length - 1][0];
+    const initialValue = data[data.length - 1][0];
     document.body.append(
         wrapExample("date-picker",
             element("style", {
                 children: /*css*/`
                     #date-picker {
-                        display: inline-block;
+                        display: flex;
+                        flex-direction: column;
                     }
-                    input[type=range] {
-                        position: relative;
+
+                    input[type="range"] {
+                        height: 18px;
+                        width: 100%;
                         z-index: 1;
-                        width: 200px;
                         margin: 0;
+                        accent-color: initial;
+                        margin-top: 12px;
+                    }
+
+                    input[type="range"]::before {
+                        content: "";
+                        height: 12px;
+                        display: block;
+                        position: absolute;
+                        width: 100%;
+                        background: linear-gradient(to right, ${data.map(data_i => getValueColor(data_i[1])).join(", ")});
+                        border-radius: 6px;
+                        transform: translateY(-100%);
                     }
                     
                     datalist {
                         display: flex;
-                        flex-direction: column;
+                        /*flex-direction: column;*/
                         justify-content: space-between;
-                        writing-mode: vertical-lr;
-                        width: 200px;
-                        transform: translateY(-30px);
+                        /*writing-mode: vertical-lr;*/
+                        transform: translateY(-35px);
                     }
                     
                     option {
                         padding: 0;
-                        padding-top: 30px;
+                        padding-top: 40px;
                         user-select: none;
                     }
 
-                    option[data-selected] {
-                        font-weight: bold;
+                    option:not([data-selected]) {
+                        opacity: 0.3;
                     }
                 `
             }),
@@ -249,7 +290,7 @@ export async function main() {
                             min: minValue,
                             max: maxValue,
                             value: initialValue,
-                            step: 1
+                            step: step
                         },
                         listeners: {
                             input: (event) => {
@@ -275,8 +316,7 @@ export async function main() {
                                 const target = document.elementsFromPoint(x, y).find(el => el instanceof Option);
                                 const tooltip = <HTMLEToolTipElement>document.getElementById("date-tooltip");
                                 if (target instanceof Option) {
-                                    const {value} = target;
-                                    const label = formatDateValue(Number(value));
+                                    const {label} = target;
                                     tooltip.textContent = label;
                                     tooltip.htmlFor = target.id;
                                     tooltip.show();
@@ -295,15 +335,15 @@ export async function main() {
                         attributes: {
                             id: "markers"
                         },
-                        children: new Array(maxValue - minValue + 1).fill(0).map((_, i) => {
+                        children: data.map((data_i, i, data) => {
                             return element("option", {
                                 attributes: {
                                     id: `${i}-option`,
-                                    value: i,
-                                    label: formatDateValue(i)
+                                    value: data_i[0],
+                                    label: formatDataLabel(data_i)
                                 },
                                 dataset: {
-                                    selected: i === initialValue
+                                    selected: i === data.length - 1
                                 }
                             });
                         }),
@@ -317,15 +357,18 @@ export async function main() {
                                 }
                             },
                             pointerover: (event) => {
-                                const {target} = event;
+                                const {target} = <PointerEvent>event;
                                 const tooltip = <HTMLEToolTipElement>document.getElementById("date-tooltip");
                                 if (target instanceof Option) {
-                                    const {value} = target;
-                                    const label = formatDateValue(Number(value));
+                                    const {label} = target;
                                     tooltip.textContent = label;
                                     tooltip.htmlFor = target.id;
                                     tooltip.show();
                                 }
+                            },
+                            pointerleave: () => {
+                                const tooltip = <HTMLEToolTipElement>document.getElementById("date-tooltip");
+                                tooltip.hide();
                             }
                         }
                     })
