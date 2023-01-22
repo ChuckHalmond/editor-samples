@@ -196,6 +196,12 @@ export async function main() {
         ]
     })
 
+    function formatDateValue(value: number) {
+        return `${String(value + 1).padStart(2, "0")}-01-2023`;   
+    }
+    const minValue = 0;
+    const maxValue = 6;
+    const initialValue = 3;
     document.body.append(
         wrapExample("date-picker",
             element("style", {
@@ -224,6 +230,10 @@ export async function main() {
                         padding-top: 30px;
                         user-select: none;
                     }
+
+                    option[data-selected] {
+                        font-weight: bold;
+                    }
                 `
             }),
             element("div", {
@@ -236,23 +246,40 @@ export async function main() {
                             id: "date-input",
                             type: "range",
                             list: "markers",
-                            min: 0,
-                            max: 5,
+                            min: minValue,
+                            max: maxValue,
+                            value: initialValue,
                             step: 1
                         },
                         listeners: {
+                            input: (event) => {
+                                const {currentTarget} = event;
+                                const input = <HTMLInputElement>currentTarget;
+                                const {value} = input;
+                                const datalist = document.getElementById("markers");
+                                if (datalist) {
+                                    const selectedOption = datalist.querySelector<HTMLOptionElement>("option[data-selected]")!;
+                                    const targetOption = datalist.querySelector<HTMLOptionElement>(`option[value='${value}']`)!;
+                                    if (selectedOption !== targetOption) {
+                                        if (selectedOption) {
+                                            delete selectedOption.dataset.selected;
+                                        }
+                                        if (targetOption) {
+                                            targetOption.dataset.selected = "";
+                                        }
+                                    }
+                                }
+                            },
                             pointermove: (event) => {
                                 const {x, y} = <PointerEvent>event;
                                 const target = document.elementsFromPoint(x, y).find(el => el instanceof Option);
                                 const tooltip = <HTMLEToolTipElement>document.getElementById("date-tooltip");
                                 if (target instanceof Option) {
                                     const {value} = target;
-                                    const label = `${Number(value) + 1}/01/2023`;
+                                    const label = formatDateValue(Number(value));
                                     tooltip.textContent = label;
+                                    tooltip.htmlFor = target.id;
                                     tooltip.show();
-                                }
-                                else {
-                                    tooltip.hide();
                                 }
                             }
                         }
@@ -268,11 +295,15 @@ export async function main() {
                         attributes: {
                             id: "markers"
                         },
-                        children: new Array(6).fill(0).map((_, i) => {
+                        children: new Array(maxValue - minValue + 1).fill(0).map((_, i) => {
                             return element("option", {
                                 attributes: {
+                                    id: `${i}-option`,
                                     value: i,
-                                    label: `${i + 1}/01/2023`
+                                    label: formatDateValue(i)
+                                },
+                                dataset: {
+                                    selected: i === initialValue
                                 }
                             });
                         }),
@@ -282,6 +313,7 @@ export async function main() {
                                 if (target instanceof Option) {
                                     const input = <HTMLInputElement>document.getElementById("date-input");
                                     input.value = target.value;
+                                    input.dispatchEvent(new InputEvent("input"));
                                 }
                             },
                             pointerover: (event) => {
@@ -289,12 +321,10 @@ export async function main() {
                                 const tooltip = <HTMLEToolTipElement>document.getElementById("date-tooltip");
                                 if (target instanceof Option) {
                                     const {value} = target;
-                                    const label = `${Number(value) + 1}/01/2023`;
+                                    const label = formatDateValue(Number(value));
                                     tooltip.textContent = label;
+                                    tooltip.htmlFor = target.id;
                                     tooltip.show();
-                                }
-                                else {
-                                    tooltip.hide();
                                 }
                             }
                         }
