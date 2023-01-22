@@ -236,9 +236,11 @@ export async function main() {
                     #date-picker {
                         display: flex;
                         flex-direction: column;
+                        padding: 0 20px;
                     }
 
                     input[type="range"] {
+                        position: relative;
                         height: 18px;
                         width: 100%;
                         z-index: 1;
@@ -270,6 +272,13 @@ export async function main() {
                         padding: 0;
                         padding-top: 40px;
                         user-select: none;
+                        width: calc(100% / ${data.length});
+                        transform: translateX(-50%);
+                        margin-right: calc(100% / ${data.length} / ${data.length});
+                    }
+
+                    option:nth-child(even) {
+                        color: transparent;
                     }
 
                     option:not([data-selected]) {
@@ -348,7 +357,7 @@ export async function main() {
                             });
                         }),
                         listeners: {
-                            click: (event) => {
+                            /*click: (event) => {
                                 const {target} = event;
                                 if (target instanceof Option) {
                                     const input = <HTMLInputElement>document.getElementById("date-input");
@@ -369,7 +378,7 @@ export async function main() {
                             pointerleave: () => {
                                 const tooltip = <HTMLEToolTipElement>document.getElementById("date-tooltip");
                                 tooltip.hide();
-                            }
+                            }*/
                         }
                     })
                 ]
