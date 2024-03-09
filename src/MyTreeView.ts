@@ -180,11 +180,9 @@ class MyTreeView extends TreeView {
                             iconed: true
                         },
                         listeners: {
-                            click: <EventListener>(
-                                function(this: MyTreeView) {
-                                    this.showEditItemDialog(item);
-                                }
-                            ).bind(this)
+                            click: () => {
+                                this.showEditItemDialog(item);
+                            }
                         }
                     }),
                     element("e-toolbaritem", {
@@ -195,14 +193,12 @@ class MyTreeView extends TreeView {
                             iconed: true
                         },
                         listeners: {
-                            click: <EventListener>(
-                                function(this: MyTreeView, event) {
-                                    item.visibility ?
-                                        item.hide() :
-                                        item.show();
-                                    event.stopPropagation();
-                                }
-                            )
+                            click: (event) => {
+                                item.visibility ?
+                                    item.hide() :
+                                    item.show();
+                                event.stopPropagation();
+                            }
                         }
                     })
                 ]
