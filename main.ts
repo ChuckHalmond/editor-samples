@@ -12,7 +12,6 @@ import "editor/lib/elements/containers/tabs";
 import "editor/lib/elements/containers/menus";
 import "editor/lib/elements/containers/status";
 import "editor/lib/elements/misc";
-import { HTMLEToolTipElement } from "editor/lib/elements/misc";
 
 export async function main() {
     document.adoptedStyleSheets = [theme.stylesheet];

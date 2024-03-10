@@ -142,38 +142,6 @@ class MyTreeView extends TreeView {
                 children: [
                     element("e-toolbaritem", {
                         attributes: {
-                            name: "type",
-                            type: "select"
-                        },
-                        children: [
-                            element("e-select", {
-                                attributes: {
-                                    slot: "select"
-                                },
-                                children: ["parent", "leaf"].map(
-                                    type => element("e-option", {
-                                        attributes: {
-                                            label: type,
-                                            value: type
-                                        }
-                                    })
-                                ),
-                                listeners: {
-                                    click: (event) => {
-                                        const {currentTarget} = event;
-                                        const select = <HTMLESelectElement>currentTarget;
-                                        const {selectedOption} = select;
-                                        if (selectedOption) {
-                                            const {value} = selectedOption;
-                                            item.type = <"parent" | "leaf">value;
-                                        }
-                                    }
-                                }
-                            })
-                        ]
-                    }),
-                    element("e-toolbaritem", {
-                        attributes: {
                             name: "edit",
                             type: "button",
                             label: "Edit",
