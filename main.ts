@@ -11,6 +11,7 @@ import "editor/lib/elements/containers/lists";
 import "editor/lib/elements/containers/tabs";
 import "editor/lib/elements/containers/menus";
 import "editor/lib/elements/containers/status";
+import "editor/lib/elements/controls/select";
 import "editor/lib/elements/misc";
 
 export async function main() {
@@ -164,6 +165,7 @@ export async function main() {
         ...[
             "builtins",
             "tablist",
+            "select",
             "sash",
             "loaders",
             "tree",

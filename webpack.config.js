@@ -3,6 +3,15 @@ const path = require("path");
 exports.default = {
   entry: "./main.ts",
   devtool: "inline-source-map",
+  mode: "development",
+  // devServer: {
+  //   static: {
+  //     directory: path.join(__dirname, "public")
+  //   },
+  //   watchFiles: ["public/**/*"],
+  //   // hot: false,
+  //   // liveReload: true
+  // },
   module: {
     rules: [
       {
@@ -11,25 +20,33 @@ exports.default = {
         exclude: /node_modules/
       },
       {
-        test: /\.svg/,
-        type: "asset/inline"
+        oneOf: [
+          {
+            test: /\.svg$/,
+            type: "asset/inline",
+            resourceQuery: /inline/
+          },
+          {
+            test: /\.(jpg|png|svg)$/,
+            type: "asset/resource"
+          },
+        ]
       },
       {
-        test: /\.ttf/,
+        test: /\.ttf$/,
         type: "asset/resource"
       },
-      // {
-      //   test: /\.html$/i,
-      //   type: "asset/source"
-      // },
       {
-        assert: { type: "css" },
+        test: /\.css$/,
         loader: "css-loader"
-      },
+      }
     ]
   },
   resolve: {
-    extensions: [".ts", ".js"],
+    // alias: {
+    //   "@css": path.resolve(__dirname, "./public/css")
+    // },
+    extensions: [".css", ".ts", ".js"],
     modules: [
       path.join(__dirname, "./"),
       path.join(__dirname, "./node_modules/")
@@ -37,7 +54,7 @@ exports.default = {
   },
   output: {
     filename: "main.js",
-    path: path.resolve(__dirname, "./dist"),
+    path: path.resolve(__dirname, "./public/dist"),
     library: {
       name: "main",
       type: "var",

@@ -1,22 +1,22 @@
 {
-    "compilerOptions": {
-      "outDir": "./dist",
-      "target": "ESNext",
-      "experimentalDecorators": true,
-      "noImplicitAny": true,
-      "module": "ESNext",
-      "moduleResolution": "Node",
-      "sourceMap": true,
-      "strict": true,
-      "declaration": true,
-      "rootDir": "./",
-      "baseUrl": "./",
-      "skipLibCheck": true,
-      "esModuleInterop": true,
-      "allowSyntheticDefaultImports": true
-    },
-    "exclude": [
-      "./dist",
-      "./node_modules"
-    ]
-  }
+  "compilerOptions": {
+    "outDir": "./dist",
+    "target": "ESNext",
+    "experimentalDecorators": true,
+    "noImplicitAny": true,
+    "module": "ESNext",
+    "moduleResolution": "Node",
+    "sourceMap": true,
+    "strict": true,
+    "declaration": true,
+    "rootDir": "./",
+    "baseUrl": "./",
+    "skipLibCheck": true,
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true
+  },
+  "exclude": [
+    "./dist",
+    "./node_modules"
+  ]
+}

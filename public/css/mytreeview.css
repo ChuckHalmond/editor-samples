@@ -1,3 +1,9 @@
+:host {
+    --edit-image: url("../assets/edit_FILL1_wght400_GRAD0_opsz48.svg?inline");
+    --visibility-image: url("../assets/visibility_FILL1_wght400_GRAD0_opsz48.svg?inline");
+    --visibility-off-image: url("../assets/visibility_off_FILL1_wght400_GRAD0_opsz48.svg?inline");
+}
+
 .badge {
     margin-left: 4px;
     color: grey;
@@ -47,14 +53,14 @@ e-tabpanel {
 
 e-toolbaritem[name="edit"]::part(icon)::before {
     background-color: black;
-    mask-image: url("/assets/edit_FILL1_wght400_GRAD0_opsz48.svg");
-    -webkit-mask-image: url("/assets/edit_FILL1_wght400_GRAD0_opsz48.svg");
+    mask-image: var(--edit-image);
+    -webkit-mask-image: var(--edit-image);
 }
 
 e-toolbaritem[name="visibility"]::part(icon)::before {
     background-color: black;
-    mask-image: url("/assets/visibility_FILL1_wght400_GRAD0_opsz48.svg");
-    -webkit-mask-image: url("/assets/visibility_FILL1_wght400_GRAD0_opsz48.svg");
+    mask-image: var(--visibility-image);
+    -webkit-mask-image: var(--visibility-image);
 }
 
 e-toolbaritem[name="visibility"][pressed] {
@@ -62,6 +68,6 @@ e-toolbaritem[name="visibility"][pressed] {
 }
 
 e-toolbaritem[name="visibility"][pressed]::part(icon)::before {
-    mask-image: url("/assets/visibility_off_FILL1_wght400_GRAD0_opsz48.svg");
-    -webkit-mask-image: url("/assets/visibility_off_FILL1_wght400_GRAD0_opsz48.svg");
+    mask-image: var(--visibility-off-image);
+    -webkit-mask-image: var(--visibility-off-image);
 }

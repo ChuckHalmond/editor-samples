@@ -79,14 +79,13 @@ class MyTreeView extends TreeView {
     override render(): void {
         super.render();
         const {shadowRoot, treeElement} = this;
-        shadowRoot.prepend(
-            element("link", {
-                attributes: {
-                    rel: "stylesheet",
-                    href: "../css/mytreeview.css"
-                }
-            })
-        );
+        const stylesheet = new CSSStyleSheet();
+        (async () => {
+            stylesheet.replace(
+                (await import("../public/css/mytreeview.css")).default[0][1]
+            )
+        })();
+        shadowRoot.adoptedStyleSheets = [stylesheet];
         treeElement!.addEventListener("keydown", this.#handleKeyDownEvent.bind(this));
     }
 
